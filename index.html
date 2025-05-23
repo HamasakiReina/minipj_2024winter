@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ログイン - 音声メモアプリ</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="login-container">
+    <div class="card">
+      <h1>音声メモアプリ</h1>
+      <p>簡単で便利な音声メモ管理</p>
+      <form id="loginForm">
+        <label for="username">ユーザー名</label>
+        <input type="text" id="username" name="username" placeholder="例: yamada" required>
+        
+        <label for="password">パスワード</label>
+        <div class="password-container">
+          <input type="password" id="password" name="password" placeholder="8文字以上" required>
+          <button type="button" id="togglePassword">👁️</button>
+        </div>
+
+        <button type="submit">ログイン</button>
+        <p id="errorMessage" class="error-message"></p>
+      </form>
+
+      <p>アカウントがありませんか？ <a href="/register.html">登録する</a></p>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const loginForm = document.getElementById('loginForm');
+      const errorMessage = document.getElementById('errorMessage');
+      const togglePassword = document.getElementById('togglePassword');
+      const passwordInput = document.getElementById('password');
+
+      togglePassword.addEventListener('click', () => {
+        if (passwordInput.type === 'password') {
+          passwordInput.type = 'text';
+          togglePassword.textContent = '🙈';
+        } else {
+          passwordInput.type = 'password';
+          togglePassword.textContent = '👁️';
+        }
+      });
+
+      if (loginForm) {
+        loginForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const username = document.getElementById('username').value;
+          const password = document.getElementById('password').value;
+
+          try {
+            const response = await fetch('/login', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ username, password }),
+            });
+
+            const result = await response.json();
+            if (response.ok) {
+              localStorage.setItem('username', result.username); // ユーザー名を保存
+              window.location.href = '/dashboard.html';
+            } else {
+              errorMessage.textContent = result.message;
+            }
+          } catch (error) {
+            console.error('ログイン中にエラーが発生しました:', error);
+            errorMessage.textContent = 'サーバーに接続できませんでした。再度お試しください。';
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - 音声メモアプリ</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="dashboard-container">
+    <div class="card">
+      <h1>ようこそ、<span id="usernameDisplay"></span>さん</h1>
+      <button id="logoutBtn" class="btn-logout">ログアウト</button>
+
+      <h2>録音して文字起こし</h2>
+      <button id="startRecordingBtn">録音開始</button>
+      <button id="stopRecordingBtn" disabled>録音停止</button>
+
+      <h2>音声ファイルをアップロードして<br>文字起こし(開発中、動作しません)</h2>
+      <input type="file" id="fileInput" accept="audio/*">
+      <button id="uploadButton">アップロード</button>
+
+      <h2>文字起こし履歴</h2>
+      <ul id="historyList"></ul>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

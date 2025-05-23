@@ -1,0 +1,21 @@
+{
+  "name": "speech-to-text-app",
+  "version": "1.0.0",
+  "description": "音声メモ管理アプリ with Google Cloud Speech-to-Text API",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@google-cloud/speech": "^5.6.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-session": "^1.18.1",
+    "memorystore": "^1.6.7",
+    "multer": "^1.4.4",
+    "path": "^0.12.7"
+  },
+  "author": "Your Name",
+  "license": "MIT"
+}

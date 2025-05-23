@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ユーザー登録</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="login-container">
+    <div class="card">
+      <h1>アカウント登録</h1>
+      <p>新しいアカウントを作成</p>
+      <form id="registerForm">
+        <label for="username">ユーザー名</label>
+        <input type="text" id="username" name="username" placeholder="例: yamada" required>
+
+        <label for="password">パスワード</label>
+        <div class="password-container">
+          <input type="password" id="password" name="password" placeholder="8文字以上" required>
+          <button type="button" id="togglePassword">👁️</button>
+        </div>
+
+        <button type="submit">登録</button>
+        <p id="registerMessage" class="error-message"></p>
+      </form>
+
+      <p>すでにアカウントをお持ちですか？ <a href="/index.html">ログインする</a></p>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const registerForm = document.getElementById('registerForm');
+      const registerMessage = document.getElementById('registerMessage');
+      const togglePassword = document.getElementById('togglePassword');
+      const passwordInput = document.getElementById('password');
+
+      togglePassword.addEventListener('click', () => {
+        if (passwordInput.type === 'password') {
+          passwordInput.type = 'text';
+          togglePassword.textContent = '🙈';
+        } else {
+          passwordInput.type = 'password';
+          togglePassword.textContent = '👁️';
+        }
+      });
+
+      if (registerForm) {
+        registerForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const username = document.getElementById('username').value;
+          const password = document.getElementById('password').value;
+
+          try {
+            const response = await fetch('/register', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ username, password }),
+            });
+
+            const result = await response.json();
+            if (response.ok) {
+              registerMessage.style.color = 'green';
+              registerMessage.textContent = '登録完了！ログインしてください。';
+            } else {
+              registerMessage.textContent = result.message;
+            }
+          } catch (error) {
+            console.error('登録中にエラーが発生しました:', error);
+            registerMessage.textContent = 'サーバーに接続できませんでした。';
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>
+
